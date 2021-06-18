@@ -1,6 +1,9 @@
 <?php
 $title = "MyTweet";
-$tweet = $_POST['tweet'];
+$fname = "tweet.txt";
+if(isset($_POST['tweet'])){
+    file_put_contents($fname, $_POST['tweet']."\n", FILE_APPEND);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -12,11 +15,23 @@ $tweet = $_POST['tweet'];
         <h1><?php echo $title; ?></h1>
         <form action="index.php" method="post">
             <div>
-                <textarea name="tweet" placeholder="いまどうしてる？"></textarea>
+                <label>
+                    <textarea name="tweet" placeholder="いまどうしてる？"></textarea>
+                </label>
             </div>
             <input type="submit"/>
         </form>
-        <div><?php echo $tweet; ?></div>
+        <div>
+            <?php
+            if (file_exists($fname)){
+                $tweets = file_get_contents($fname);
+                $tweets  =explode("\n", $tweets);
+                for($i = 0; $i < count($tweets); $i++){
+                    echo "<div>".$tweets[$i]."</div>";
+                }
+            }
+            ?>
+        </div>
     </body>
 </html>
 
