@@ -33,7 +33,11 @@ if (isset($_POST['tweet'])) {
     <?php
     if (file_exists($xmlfile)) {
         $tweets = simplexml_load_file($xmlfile);
-        foreach ($tweets as $entry) {
+        foreach ($tweets as $entry){
+            $entries[(string)$entry['id']] = $entry;
+        }
+        krsort($entries);
+        foreach ($entries as $entry) {
             echo "<div class='entry'>";
             echo "<div class='date'><p>$entry->date</p></div>";
             echo "<div class='text'><h3>$entry->text</h3></div>";
